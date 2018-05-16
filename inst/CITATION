@@ -1,0 +1,42 @@
+citHeader("To cite SK Package in publications use:")
+
+year <- sub("-.*", "", meta$Date)
+note <- sprintf("R package version %s", meta$Version)
+
+bibentry(
+bibtype="Manual",
+title="{SK}: Segment-Based Ordinary Kriging and Segment-Based Regression Kriging for Spatial Prediction",
+author="Yongze Song",
+year=year,
+note=note)
+
+bibentry(
+bibtype="Article",
+title="Traffic Volume Prediction With Segment-Based Regression Kriging and its Implementation in Assessing the Impact of Heavy Vehicles",
+author="Song, Yongze and Wang, Xiangyu and Wright, Graeme and Thatcher, Dominique and Wu, Peng and Felix, Pascal",
+journal="IEEE Transactions on Intelligent Transportation Systems",
+year="2018",
+publisher="IEEE",
+doi="10.1109/TITS.2018.2805817")
+
+bibentry(
+bibtype="Article",
+title="Spatial and temporal variations of spatial population accessibility to public hospitals: a case study of rural--urban comparison",
+author="Song, Yongze and Tan, Yi and Song, Yimeng and Wu, Peng and Cheng, Jack CP and Kim, Mi Jeong and Wang, Xiangyu",
+journal="GIScience & Remote Sensing",
+pages="1--27",
+year="2018",
+publisher="Taylor & Francis",
+doi="10.1080/15481603.2018.1446713")
+
+bibentry(
+bibtype="Article",
+title="Rtop: An R package for interpolation of data with a variable spatial support, with an example from river networks",
+author="Skoien, Jon O and Bloschl, Gunter and Laaha, Gregor and Pebesma, E and Parajka, Juraj and Viglione, Alberto",
+journal="Computers & Geosciences",
+volume="67",
+pages="180--190",
+year="2014",
+publisher="Elsevier",
+doi="10.1016/j.cageo.2014.02.009"
+)

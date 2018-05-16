@@ -1,0 +1,85 @@
+---
+title: "Segment-Based Kriging Models for Spatial Prediction"
+author: "Yongze Song"
+date: "14 May 2018"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Segment-Based Kriging Models for Spatial Prediction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**SK** package presents segment-based Kriging models, including segment-based ordinary Kriging (SOK) and segment-based regression Kriging (SRK), for spatial prediction. Segment-based Kriging models "integrate the spatial characteristics of spatial line segments and the spatial homogeneity of each single segment, consider their spatial autocorrelation and enable segment-based data to compute the best linear unbiased estimation" (Song et al. 2018). The models are proposed for the spatial predictions of segment-based traffic volumes and the burden of road pavement maintenance. The problem solving processes refer to the methods area-to-area Kriging (ATAK) (Goovaerts 2006, Goovaerts 2009) and rtop-Kriging (Skoien 2005, Skoien 2014). More details about methods and applications can refer to the articles in the reference list below. 
+
+## Usage
+
+The **SK** package includes a case dataset `vehicles` with the format of spatial polyline shapefile. The dataset `vtest` is a sample of `vehicles`. Details of datasets can be found in the manual of **SK** package. Users can follow the datasets and following codes to prepare data and run the segment-based Kriging models.
+
+Load datasets:
+
+```{r}
+library(SK)
+data(vtest)
+data(vehicles)
+head(vehicles@data)[1:4,]
+```
+
+SOK for `vtest`:
+
+```{r, eval = FALSE}
+sok1 <- skriging(heavy ~ 1, polyline = vtest, method = "sok", 
+                 lwd = "width", obspred = "obs1pred0", boxcox = TRUE)
+sok1
+plot(sok1)
+```
+
+Note: Left figure shows both observations and predictions. Right figure shows the distributions of prediction uncertainty, where the gray lines are observation segments.
+
+SRK for `vtest`:
+  
+```{r, eval = FALSE}
+srk1 <- skriging(heavy ~ wpai + width, polyline = vtest, method = "srk", 
+                 lwd = "width", obspred = "obs1pred0", boxcox = TRUE)
+srk1
+plot(srk1)
+```
+
+SOK for `vehicles`:
+  
+```{r, eval = FALSE}
+data(vehicles)
+sok2 <- skriging(heavy ~ 1, polyline = vehicles, method = "sok", 
+                 lwd = "width", obspred = "obs1pred0", boxcox = TRUE)
+sok2
+plot(sok2, studyarea = wheatbelt)
+```
+
+SRK for `vehicles`:
+  
+```{r, fig.show="hold", fig.height=4, fig.width=10}
+srk2 <- skriging(heavy ~ wpai + width, polyline = vehicles, method = "srk", 
+                 lwd = "width", obspred = "obs1pred0", boxcox = TRUE)
+srk2
+plot(srk2, studyarea = wheatbelt)
+```
+
+## References
+
+Song Y, Wang X, Wright G, Thatcher D, Wu P and Felix P (2018). "Traffic Volume Prediction With Segment-Based Regression Kriging and its Implementation in Assessing the Impact of Heavy Vehicles." IEEE Transactions on Intelligent Transportation Systems, pp. 1-12. doi: [10.1109/TITS.2018.2805817][1].
+
+Goovaerts P (2006). "Geostatistical analysis of disease data: accounting for spatial support and population density in the isopleth mapping of cancer mortality risk using area-to-point Poisson kriging". International Journal of Health Geographics, 5, pp. 52.
+
+Goovaerts P (2009). "Combining area-based and individual-level data in the geostatistical mapping of late-stage cancer incidence". Spatial and spatio-temporal epidemiology, 1, pp. 61-71.
+
+Skoien JO, Merz R and Bloschl G (2005). "Top-kriging? geostatistics on stream networks". Hydrology and Earth System Sciences Discussions, 2, pp. 2253-86.
+
+Skoien JO, Bloschl G, Laaha G, Pebesma E, Parajka J and Viglione A (2014). "Rtop: An R package for interpolation of data with a variable spatial support, with an example from river networks". Computers & Geosciences, 67, pp. 180-90.
+
+[1]: https://ieeexplore.ieee.org/document/8307463/
